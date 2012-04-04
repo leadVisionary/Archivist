@@ -1,7 +1,7 @@
-An initial prototype for the Archivist archetype of the rzr-js reference model.
-An archetype is a meta-level pattern encountered in many different applications,typically revolving around providing a certain set of functionality. 
+An initial prototype for the Archivist archetype of the Personify reference model.
+An archetype is a meta-level pattern encountered in many different applications, typically revolving around providing a certain set of functionality. 
 
-For example, applications that depend on databases often use an Active Record (http://martinfowler.com/eaaCatalog/activeRecord.html e.g. Ruby on Rails) or a Data Mapper (http://martinfowler.com/eaaCatalog/dataMapper.html e.g. Java Hibernate) to manage persistence of data to long-term storage. In rzr-js, this is manifested as the Archivist archetype. 
+For example, applications that depend on databases must deal with Object-Relational Mapping (ORM). They often use an Active Record (http://martinfowler.com/eaaCatalog/activeRecord.html e.g. Ruby on Rails) or a Data Mapper (http://martinfowler.com/eaaCatalog/dataMapper.html e.g. Java Hibernate) to manage persistence of data to long-term storage. In Personify, this is manifested as the Archivist archetype. 
 
 Like an archivist (a historian) in a castle, the Archivist archtype embodies the responsibility of storing information into long term storage. 
 
@@ -10,7 +10,13 @@ Archivists are responsible for knowing
 - what to store (An Archive)
 - how to store it (An ArchivingStrategy)
 
-A particular type of Archivist, for example an ESPNScout, would extend the Archivist archetype through an application of the Decorator pattern (http://addyosmani.com/blog/decorator-pattern/) and explicitly devise its own StorageLocation, Archives, and ArchivingStrategies by extending the base interfaces and providing their own implemenations.
+Archivists provide these basic services:
+- Create(data)
+- Read(id)
+- Update(id, newData)
+- Delete(id)
+
+A particular type of Archivist, for example an MongoDBArchivist, would extend the Archivist archetype through an application of the Decorator pattern (http://addyosmani.com/blog/decorator-pattern/) and explicitly devise its own StorageLocation, Archives, and ArchivingStrategies by extending the base interfaces and providing their own implemenations.
 
 The directory content of Archivist follows rzr style, adhering to the principles of Domain Driven Design (http://domaindrivendesign.org/) by defining a Bounded Context called domain/ by convention. The domain has separate modules, though it is a rzr guiding principle that blades (plugin components) be as minimalistic as possible. Hence, the Archivist has one module, archivist/. 
 
@@ -24,6 +30,6 @@ More intelligent agents may use their brains to reason about their current conte
 
 The Archivist archetype is intentionally dumb. Or, perhaps more kindly, naive. It is expected that domain specific agents will decorate it with intelligence, which is usually domain specific in nature. 
 
-The Archivist archetype strives to be Simple and Easy, following Rich Hickey's definition (http://www.infoq.com/presentations/Simple-Made-Easy). It provides one basic service to the external world, store. 
+The Archivist archetype strives to be Simple and Easy, following Rich Hickey's definition (http://www.infoq.com/presentations/Simple-Made-Easy). It provides simple CRUD to the external world. 
 
 Archivists really should not do more than this. Following the Single Responsibility Principle (www.objectmentor.com/resources/articles/srp.pdf), they are intended to be components within a larger system that can be leveraged by others to perform work. If feature functionality beyond the simple use case "Store Information X in Place Y by doing Z" starts to creep into your implementation, YOAR DOING IT WRONG. Refactor that logic elsewhere.    
