@@ -1,0 +1,5 @@
+Make StorageLocation (Data Mapper for persistence layer and model)
+Make Record (take javascript object, add id field,send it to storage location to persist)
+Should Query be a model?
+Archivist exposes CRUD (maybe make read=find, delete=remove)
+Archivist -> MongoArchivist -> ArbtraderArchivist
