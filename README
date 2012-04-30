@@ -1,35 +1,37 @@
-An initial prototype for the Archivist archetype of the Personify reference model.
-An archetype is a meta-level pattern encountered in many different applications, typically revolving around providing a certain set of functionality. 
+<h1>On Archetypes</h1>
+An initial prototype for the <strong>Archivist</strong> archetype of the <em>Personify</em> reference model.
+An archetype is a meta-level pattern encountered in many different applications. 
+Archetypes provide general functionality usually required by many applications.
 
-For example, applications that depend on databases must deal with Object-Relational Mapping (ORM). They often use an Active Record (http://martinfowler.com/eaaCatalog/activeRecord.html e.g. Ruby on Rails) or a Data Mapper (http://martinfowler.com/eaaCatalog/dataMapper.html e.g. Java Hibernate) to manage persistence of data to long-term storage. In Personify, this is manifested as the Archivist archetype. 
+<p>For example, applications often store data in databases. Traditionally, this meant Object-Relational Mapping (ORM). Such applications would often use an <a href="http://martinfowler.com/eaaCatalog/activeRecord.html" target="_blank">Active Record</a> (e.g. Ruby on Rails) or a <a href="http://martinfowler.com/eaaCatalog/dataMapper.html" target="_blank">Data Mapper</a> (e.g. Java Hibernate) to manage data persistence to long-term storage.</p> 
 
-Like an archivist (a historian) in a castle, the Archivist archtype embodies the responsibility of storing information into long term storage. 
+<p>Personify manifests this as the <strong>Archivist</strong> archetype.</p> 
+<h1>Archivist</h1>
+<p>Like an archivist (a historian) in a castle, the <strong>Archivist</strong> archtype personifies the responsibility of storing information into long term storage.</p>
 
-Archivists are responsible for knowing 
+<p>An <strong>Archivist</strong> are responsible for knowing</p> 
 - where to store things (A StorageLocation)  
 - what to store (An Archive)
 - how to store it (An ArchivingStrategy)
 
-Archivists provide these basic services:
+<p>An <strong>Archivist</strong> provides these basic services:</p>
 - Create(data)
 - Read(id)
 - Update(id, newData)
 - Delete(id)
 
-A particular type of Archivist, for example an MongoDBArchivist, would extend the Archivist archetype through an application of the Decorator pattern (http://addyosmani.com/blog/decorator-pattern/) and explicitly devise its own StorageLocation, Archives, and ArchivingStrategies by extending the base interfaces and providing their own implemenations.
+<p>A particular type of <strong>Archivist</strong>, for example a MongoDBArchivist, would extend the <strong>Archivist</strong> archetype through an application of the <a href="http://addyosmani.com/blog/decorator-pattern/" target="_blank">Decorator pattern</a> and explicitly devise its own StorageLocation, Archives, and ArchivingStrategies by extending the base interfaces and providing their own implemenations.</p>
 
-The directory content of Archivist follows rzr style, adhering to the principles of Domain Driven Design (http://domaindrivendesign.org/) by defining a Bounded Context called domain/ by convention. The domain has separate modules, though it is a rzr guiding principle that blades (plugin components) be as minimalistic as possible. Hence, the Archivist has one module, archivist/. 
+<p>The directory content of <strong>Archivist</strong> follows rzr style, adhering to the principles of <a href="http://domaindrivendesign.org/" target="_blank">Domain Driven Design</a> by defining a Bounded Context called domain/ by convention. The domain has separate modules, though it is a rzr guiding principle that blades (plugin components) be as minimalistic as possible. Hence, the <strong>Archivist</strong> has one module, archivist/.</p>
 
-The Archivist module has an Aggregate Root, conventionally named for the module (in this case, Archivist.coffee) which exposes the agents the module provides for external interface.
+<p>Each module has an Aggregate Root, conventionally named for the module (in this case, Archivist.coffee). The Aggregate root exposes the agents the module provides for external interface. Modules in rzr style are Agents, though they may not always be very smart.</p>
 
-Modules in rzr style are Agents, though they may not always be very smart. 
+<p>A dumb Agent may function much like an ideal <a href="http://java.sun.com/blueprints/patterns/FrontController.html" target="_blank">Front Controller</a> in a traditional Model-View-Controller application, forming an API for the services it provides and delegating requests appropriately.</p> 
 
-A dumb Agent may function much like an ideal Front Controller (http://java.sun.com/blueprints/patterns/FrontController.html) in a traditional Model-View-Controller application, forming an API for the services it provides and delegating requests appropriately. 
+<p>More intelligent agents may use reasoning engines to examine their current context, ensure the safety and validity of the information they have been provided, and align their actions with their models of the world, their beliefs, and their goals.</p>
 
-More intelligent agents may use their brains to reason about their current context, ensure the safety and validity of the information they have been provided, and align their actions with their models of the world, their beliefs, and their goals.
+<p>The <strong>Archivist</strong> archetype is intentionally dumb. Or, perhaps more kindly, naive. It is expected that domain specific agents will decorate it with intelligence, which is usually domain specific in nature.</p>
 
-The Archivist archetype is intentionally dumb. Or, perhaps more kindly, naive. It is expected that domain specific agents will decorate it with intelligence, which is usually domain specific in nature. 
+<p>The <strong>Archivist</strong> archetype strives to be <a href="http://www.infoq.com/presentations/Simple-Made-Easy" target="_blank">Simple and Easy</a>, following Rich Hickey's definition. It provides simple CRUD to the external world.</p> 
 
-The Archivist archetype strives to be Simple and Easy, following Rich Hickey's definition (http://www.infoq.com/presentations/Simple-Made-Easy). It provides simple CRUD to the external world. 
-
-Archivists really should not do more than this. Following the Single Responsibility Principle (www.objectmentor.com/resources/articles/srp.pdf), they are intended to be components within a larger system that can be leveraged by others to perform work. If feature functionality beyond the simple use case "Store Information X in Place Y by doing Z" starts to creep into your implementation, YOAR DOING IT WRONG. Refactor that logic elsewhere.    
+<p><strong>Archivists</strong> really should not do more than this. Following the <a href="www.objectmentor.com/resources/articles/srp.pdf" target="_blank">Single Responsibility Principle</a>, they are intended to be specialized agents within an organization, requested by others to store data. If feature functionality beyond the simple use case "Store Information X in Place Y by doing Z" starts to creep into your implementation, YOAR DOING IT WRONG. Refactor that logic elsewhere.</p>    
