@@ -20,18 +20,24 @@ Archetypes provide general functionality usually required by many applications.
 - Update(id, newData)
 - Delete(id)
 
+<h1>Specializations</h1>
 <p>A particular type of <strong>Archivist</strong>, for example a MongoDBArchivist, would extend the <strong>Archivist</strong> archetype through an application of the <a href="http://addyosmani.com/blog/decorator-pattern/" target="_blank">Decorator pattern</a> and explicitly devise its own StorageLocation, Archives, and ArchivingStrategies by extending the base interfaces and providing their own implemenations.</p>
 
+<h1>Source Layout and contents</h1>
 <p>The directory content of <strong>Archivist</strong> follows rzr style, adhering to the principles of <a href="http://domaindrivendesign.org/" target="_blank">Domain Driven Design</a> by defining a Bounded Context called domain/ by convention. The domain has separate modules, though it is a rzr guiding principle that blades (plugin components) be as minimalistic as possible. Hence, the <strong>Archivist</strong> has one module, archivist/.</p>
 
-<p>Each module has an Aggregate Root, conventionally named for the module (in this case, Archivist.coffee). The Aggregate root exposes the agents the module provides for external interface. Modules in rzr style are Agents, though they may not always be very smart.</p>
+<p>Each module has an Aggregate Root, conventionally named for the Module (in this case, Archivist.coffee). The Module contains the standard DDD components of Models and Services. Factories and Repositories are option, though the beta applications in <em>Personify</em> have delegated those responsiblities to other Agents (the <strong>Archivist</strong> is the Repository handler).  The Aggregate root exposes the agents the module provides for external interface. Modules in rzr style are Agents, though they may not always be very smart.</p>
 
+<h1>More on Agent Implementation</h1>
 <p>A dumb Agent may function much like an ideal <a href="http://java.sun.com/blueprints/patterns/FrontController.html" target="_blank">Front Controller</a> in a traditional Model-View-Controller application, forming an API for the services it provides and delegating requests appropriately.</p> 
 
 <p>More intelligent agents may use reasoning engines to examine their current context, ensure the safety and validity of the information they have been provided, and align their actions with their models of the world, their beliefs, and their goals.</p>
 
+<p><em>Personify</em> Agents are entities with stated contracts, similar to <a href="http://c2.com/cgi/wiki?DesignByContract" target="_blank">Design By Contract</a>. These contracts are written in a <a href="http://c2.com/cgi/wiki?DomainSpecificLanguage" target="_blank">Domain Specific Language</a> for contract generation. These contracts outline their Beliefs, Capabilities, and Commitments. Beliefs expressed in the contracts become  manifested in the <a href="http://martinfowler.com/eaaCatalog/domainModel.html" target="_blank">Domain Model</a>, which is updated and used by the Agent's Brain to update according to change in context and carry out actions.</p> 
+
+<h1>Archivist Intent</h1>
 <p>The <strong>Archivist</strong> archetype is intentionally dumb. Or, perhaps more kindly, naive. It is expected that domain specific agents will decorate it with intelligence, which is usually domain specific in nature.</p>
 
 <p>The <strong>Archivist</strong> archetype strives to be <a href="http://www.infoq.com/presentations/Simple-Made-Easy" target="_blank">Simple and Easy</a>, following Rich Hickey's definition. It provides simple CRUD to the external world.</p> 
 
-<p><strong>Archivists</strong> really should not do more than this. Following the <a href="www.objectmentor.com/resources/articles/srp.pdf" target="_blank">Single Responsibility Principle</a>, they are intended to be specialized agents within an organization, requested by others to store data. If feature functionality beyond the simple use case "Store Information X in Place Y by doing Z" starts to creep into your implementation, YOAR DOING IT WRONG. Refactor that logic elsewhere.</p>    
+<p><strong>Archivists</strong> really should not do more than this. Following the <a href="www.objectmentor.com/resources/articles/srp.pdf" target="_blank">Single Responsibility Principle</a>, they are intended to be specialized agents within an organization, requested by others to store data. If feature functionality beyond the simple use case "Store Information X in Place Y by doing Z" starts to creep into your implementation, YOAR DOING IT WRONG. Refactor that logic elsewhere.</p>
