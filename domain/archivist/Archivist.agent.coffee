@@ -6,7 +6,7 @@ update = require './services/update'
 delete = require './services/delete'
  
 class Archivist
-	setStorageLocation: (location) -> @archive = location
+	setArchive: (location) -> @archive = location
   	setStorageStrategy: (strategy) -> @strategy = strategy
 
   	create: (data) -> create(data, @archive, @strategy)
