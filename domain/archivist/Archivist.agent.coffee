@@ -11,7 +11,7 @@ class Archivist
 
   	create: (data) -> create(data, @archive, @strategy)
   	read: (id) -> read(id, @archive)
-  	update: (id, newData) -> update(id, Archive, newData)
-  	delete : (id) -> delete(id)
+  	update: (id, newData) -> update(id, @archive, newData)
+  	delete : (id) -> delete(id, @archive)
 
 module.exports = Archivist
