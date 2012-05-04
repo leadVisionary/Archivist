@@ -1,4 +1,4 @@
-create: (data, archive, callback) ->
+create = (data, archive, callback) ->
 	created = archive.create(data)
 	callback(created)
 	return created

@@ -2,24 +2,22 @@
 REPORTER = dot
 TM_DEST = ~/Library/Application\ Support/TextMate/Bundles
 TM_BUNDLE = JavaScript\ mocha.tmbundle
-SRC = $(shell find lib -name "*.js" -type f)
+SRC = $(shell find lib -name "*.js" -type f | sort)
 SUPPORT = $(wildcard support/*.js)
 
-all: mocha.js mocha.css
-
-mocha.css: test/browser/style.css
-	cp -f $< $@
+all: mocha.js
 
 mocha.js: $(SRC) $(SUPPORT)
 	@node support/compile $(SRC)
 	@cat \
 	  support/head.js \
 	  _mocha.js \
-	  support/{tail,foot}.js \
+	  support/tail.js \
+	  support/foot.js \
 	  > mocha.js
 
 clean:
-	rm -f mocha.{js,css}
+	rm -f mocha.js
 	rm -fr lib-cov
 	rm -f coverage.html
 
@@ -107,9 +105,6 @@ non-tty:
 
 	@echo spec:
 	@cat /tmp/spec.out
-
-watch:
-	@watch -q $(MAKE) mocha.{js,css}
 
 tm:
 	mkdir -p $(TM_DEST)/$(TM_BUNDLE)

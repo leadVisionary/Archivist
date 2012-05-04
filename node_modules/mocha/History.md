@@ -1,4 +1,28 @@
 
+1.0.3 / 2012-04-30 
+==================
+
+  * Fixed string diff newlines
+  * Fixed: removed mocha.css target. Closes #401
+
+1.0.2 / 2012-04-25 
+==================
+
+  * Added HTML reporter duration. Closes #47
+  * Fixed: one postMessage event listener [exogen]
+  * Fixed: allow --globals to be used multiple times. Closes #100 [brendannee]
+  * Fixed #158: removes jquery include from browser tests
+  * Fixed grep. Closes #372 [brendannee]
+  * Fixed #166 - When grepping don't display the empty suites
+  * Removed test/browser/style.css. Closes #385
+
+1.0.1 / 2012-04-04 
+==================
+
+  * Fixed `.timeout()` in hooks
+  * Fixed: allow callback for `mocha.run()` in client version
+  * Fixed browser hook error display. Closes #361
+
 1.0.0 / 2012-03-24 
 ==================
 

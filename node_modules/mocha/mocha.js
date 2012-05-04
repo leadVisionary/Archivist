@@ -407,15 +407,15 @@ module.exports = Context;
 function Context(){}
 
 /**
- * Set the context `Test` to `test`.
+ * Set the context `Runnable` to `runnable`.
  *
- * @param {Test} test
+ * @param {Runnable} runnable
  * @return {Context}
  * @api private
  */
 
-Context.prototype.test = function(test){
-  this._test = test;
+Context.prototype.runnable = function(runnable){
+  this._runnable = runnable;
   return this;
 };
 
@@ -428,12 +428,12 @@ Context.prototype.test = function(test){
  */
 
 Context.prototype.timeout = function(ms){
-  this._test.timeout(ms);
+  this._runnable.timeout(ms);
   return this;
 };
 
 /**
- * Inspect the context void of `._test`.
+ * Inspect the context void of `._runnable`.
  *
  * @return {String}
  * @api private
@@ -441,7 +441,7 @@ Context.prototype.timeout = function(ms){
 
 Context.prototype.inspect = function(){
   return JSON.stringify(this, function(key, val){
-    return '_test' == key
+    return '_runnable' == key
       ? undefined
       : val;
   }, 2);
@@ -870,7 +870,7 @@ exports = module.exports = Mocha;
  * Library version.
  */
 
-exports.version = '1.0.0';
+exports.version = '1.0.2';
 
 /**
  * Expose internals.
@@ -1222,7 +1222,7 @@ exports.list = function(failures){
 
 function Base(runner) {
   var self = this
-    , stats = this.stats = { suites: 0, tests: 0, passes: 0, failures: 0 }
+    , stats = this.stats = { suites: 0, tests: 0, passes: 0, pending: 0, failures: 0 }
     , failures = this.failures = [];
 
   if (!runner) return;
@@ -1266,6 +1266,10 @@ function Base(runner) {
     stats.end = new Date;
     stats.duration = new Date - stats.start;
   });
+
+  runner.on('pending', function(){
+    stats.pending++;
+  });
 }
 
 /**
@@ -1277,17 +1281,26 @@ function Base(runner) {
 
 Base.prototype.epilogue = function(){
   var stats = this.stats
-    , fmt;
+    , fmt
+    , tests;
 
   console.log();
+
+  function pluralize(n) {
+    return 1 == n ? 'test' : 'tests';
+  }
 
   // failure
   if (stats.failures) {
     fmt = color('bright fail', '  ✖')
-      + color('fail', ' %d of %d tests failed')
+      + color('fail', ' %d of %d %s failed')
       + color('light', ':')
 
-    console.error(fmt, stats.failures, this.runner.total);
+    console.error(fmt,
+      stats.failures,
+      this.runner.total,
+      pluralize(this.runner.total));
+
     Base.list(this.failures);
     console.error();
     return;
@@ -1295,10 +1308,22 @@ Base.prototype.epilogue = function(){
 
   // pass
   fmt = color('bright pass', '  ✔')
-    + color('green', ' %d tests complete')
+    + color('green', ' %d %s complete')
     + color('light', ' (%dms)');
 
-  console.log(fmt, stats.tests || 0, stats.duration);
+  console.log(fmt,
+    stats.tests || 0,
+    pluralize(stats.tests),
+    stats.duration);
+
+  // pending
+  if (stats.pending) {
+    fmt = color('pending', '  •')
+      + color('pending', ' %d %s pending');
+
+    console.log(fmt, stats.pending, pluralize(stats.pending));
+  }
+
   console.log();
 };
 
@@ -1326,6 +1351,7 @@ function pad(str, len) {
 
 function errorDiff(err, type) {
   return diff['diff' + type](err.actual, err.expected).map(function(str){
+    if (str.value == '\n') str.value = '<newline>\n';
     if (str.added) return colorLines('diff added', str.value);
     if (str.removed) return colorLines('diff removed', str.value);
     return str.value;
@@ -1621,7 +1647,7 @@ function HTML(runner) {
   });
 
   runner.on('fail', function(test, err){
-    if (err.uncaught) runner.emit('test end', test);
+    if ('hook' == test.type || err.uncaught) runner.emit('test end', test);
   });
 
   runner.on('test end', function(test){
@@ -1637,7 +1663,7 @@ function HTML(runner) {
 
     // test
     if ('passed' == test.state) {
-      var el = fragment('<div class="test pass"><h2>%e</h2></div>', test.title);
+      var el = fragment('<div class="test pass %e"><h2>%e<span class="duration">%ems</span></h2></div>', test.speed, test.title, test.duration);
     } else if (test.pending) {
       var el = fragment('<div class="test pass pending"><h2>%e</h2></div>', test.title);
     } else {
@@ -2450,8 +2476,9 @@ function Progress(runner, options) {
 
   // tests complete
   runner.on('test end', function(){
+    complete++;
     var incomplete = total - complete
-      , percent = complete++ / total
+      , percent = complete / total
       , n = width * percent | 0
       , i = width - n;
 
@@ -2923,6 +2950,8 @@ Runnable.prototype.run = function(fn){
     , finished
     , emitted;
 
+  if (ctx) ctx.runnable(this);
+
   // timeout
   if (this.async) {
     if (ms) {
@@ -3037,7 +3066,8 @@ Runner.prototype.constructor = Runner;
 
 
 /**
- * Run tests with full titles matching `re`.
+ * Run tests with full titles matching `re`. Updates runner.total
+ * with number of tests matched.
  *
  * @param {RegExp} re
  * @return {Runner} for chaining
@@ -3047,7 +3077,28 @@ Runner.prototype.constructor = Runner;
 Runner.prototype.grep = function(re){
   debug('grep %s', re);
   this._grep = re;
+  this.total = this.grepTotal(this.suite);
   return this;
+};
+
+/**
+ * Returns the number of tests matching the grep search for the 
+ * given suite.
+ *
+ * @param {Suite} suite
+ * @return {Number}
+ * @api public
+ */
+
+Runner.prototype.grepTotal = function(suite) {
+  var self = this;
+  var total = 0;
+
+  suite.eachTest(function(test){
+    if (self._grep.test(test.fullTitle())) total++;
+  });
+
+  return total;
 };
 
 /**
@@ -3140,7 +3191,6 @@ Runner.prototype.hook = function(name, fn){
     var hook = hooks[i];
     if (!hook) return fn();
     self.currentRunnable = hook;
-    hook.ctx.test(self.test);
 
     self.emit('hook', hook);
 
@@ -3249,7 +3299,6 @@ Runner.prototype.runTest = function(fn){
     , self = this;
 
   try {
-    test.ctx.test(test);
     test.on('error', function(err){
       self.fail(test, err);
     });
@@ -3328,10 +3377,14 @@ Runner.prototype.runTests = function(suite, fn){
  */
 
 Runner.prototype.runSuite = function(suite, fn){
-  var self = this
+  var total = this.grepTotal(suite)
+    , self = this
     , i = 0;
 
   debug('run suite %s', suite.fullTitle());
+
+  if (!total) return fn();
+
   this.emit('suite', this.suite = suite);
 
   function next() {
@@ -3669,6 +3722,24 @@ Suite.prototype.total = function(){
   }, 0) + this.tests.length;
 };
 
+/**
+ * Iterates through each suite recursively to find
+ * all tests. Applies a function in the format
+ * `fn(test)`.
+ *
+ * @param {Function} fn
+ * @return {Suite}
+ * @api private
+ */
+
+Suite.prototype.eachTest = function(fn){
+  utils.forEach(this.tests, fn);
+  utils.forEach(this.suites, function(suite){
+    suite.eachTest(fn);
+  });
+  return this;
+};
+
 }); // module: suite.js
 
 require.register("test.js", function(module, exports, require){
@@ -3916,7 +3987,6 @@ exports.slug = function(str){
     .replace(/[^-\w]/g, '');
 };
 }); // module: utils.js
-
 /**
  * Node shims.
  *
@@ -3946,15 +4016,16 @@ process.nextTick = (function(){
   var timeouts = []
     , name = 'mocha-zero-timeout'
 
+  window.addEventListener('message', function(e){
+    if (e.source == window && e.data == name) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (timeouts.length) timeouts.shift()();
+    }
+  }, true);
+
   return function(fn){
     timeouts.push(fn);
     window.postMessage(name, '*');
-    window.addEventListener('message', function(e){
-      if (e.source == window && e.data == name) {
-        if (e.stopPropagation) e.stopPropagation();
-        if (timeouts.length) timeouts.shift()();
-      }
-    }, true);
   }
 })();
 
@@ -4051,7 +4122,7 @@ window.mocha = require('mocha');
    * Run mocha, returning the Runner.
    */
 
-  mocha.run = function(){
+  mocha.run = function(fn){
     suite.emit('run');
     var runner = new mocha.Runner(suite);
     var Reporter = options.reporter || mocha.reporters.HTML;
@@ -4062,7 +4133,7 @@ window.mocha = require('mocha');
     if (options.globals) runner.globals(options.globals);
     runner.globals(['location']);
     runner.on('end', highlightCode);
-    return runner.run();
+    return runner.run(fn);
   };
 })();
 })();

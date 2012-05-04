@@ -24,5 +24,5 @@ class Archive
   
   getSize: () -> @id
   
-  module.exports = Archive
+module.exports = Archive
 	
