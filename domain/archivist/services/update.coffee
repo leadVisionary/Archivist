@@ -1,4 +1,4 @@
-update: (id, archive, data) ->
+update = (id, archive, data) ->
 	archive.update(id, data)
 
 

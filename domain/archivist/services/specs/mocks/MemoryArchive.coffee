@@ -10,7 +10,7 @@ class MemoryArchive extends Archive
 	update: (id, data) ->
 		return super id,data
 
-	delete: (id) ->
+	remove: (id) ->
 		return super id
 
 module.exports = MemoryArchive

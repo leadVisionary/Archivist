@@ -17,7 +17,7 @@ class Archive
   	toUpdate.setProperty key, value for own key, value of data
   	return toUpdate
 
-  delete: (id) ->
+  remove: (id) ->
   	toDelete = @storage[id]
   	@storage[id] = null
   	return toDelete

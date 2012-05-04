@@ -1,7 +1,7 @@
 create = require './services/create'
 read = require './services/read'
 update = require './services/update'
-delete = require './services/delete'
+remove = require './services/remove'
  
 class Archivist
 	setArchive: (location) -> @archive = location
@@ -10,6 +10,6 @@ class Archivist
   	create: (data) -> create(data, @archive, @strategy)
   	read: (id) -> read(id, @archive)
   	update: (id, newData) -> update(id, @archive, newData)
-  	delete : (id) -> delete(id, @archive)
+  	remove: (id) -> remove(id, @archive)
 
 module.exports = Archivist
