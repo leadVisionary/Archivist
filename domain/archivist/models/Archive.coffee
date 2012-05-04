@@ -1,12 +1,13 @@
 Record = require './Record'
 
 class Archive
-  constructor: (@name, @id = 0, @storage = [])->
+  constructor: (@name, @id = 1, @storage = [])->
 
   create: (data) ->
     @storage[@id++] = new Record(@id, data)
 
   read: (id) ->
+    console.log @storage
     return @storage[id]
 
   update: (id, data) ->
