@@ -22,5 +22,7 @@ class Archive
   	@storage[id] = null
   	return toDelete
   
+  getSize: () -> @id
+  
   module.exports = Archive
 	
