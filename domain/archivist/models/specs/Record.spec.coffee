@@ -10,3 +10,11 @@ describe 'Record', ->
 			result.name.should.eql "Nick"
 			result.age.should.eql 26
 			done()
+
+	describe '#setProperty', ->
+		it 'should set the properties of a record to match passed in data(used later for updates)', (done) ->
+			data = { name: "Nick", "age" : 26}
+			result = new Record(0, data)
+			result.setProperty name, "Joseph"
+			result.name.should.eql "Joseph"
+			done()			

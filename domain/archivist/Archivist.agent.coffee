@@ -1,5 +1,3 @@
-Archive = require './models/Archive'
-ArchivalStrategy = require './models/ArchivalStrategy'
 create = require './services/create'
 read = require './services/read'
 update = require './services/update'
