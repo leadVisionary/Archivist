@@ -10,7 +10,9 @@ describe 'Archive', ->
         emotion : "happy"
       archive = new Archive("Dog")
       result = archive.create(boogie)
-      result.should.be.true
+      result.name.should.eql boogie.name
+      result.age.should.eql boogie.age
+      result.emotion.should.eql boogie.emotion
       newSize = archive.getSize()
       newSize.should.eql 1
 

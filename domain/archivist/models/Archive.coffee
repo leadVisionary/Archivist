@@ -1,10 +1,7 @@
 Record = require './Record'
 
 class Archive
-  @storage = []
-  @id = 0
-  
-  constructor: (@name)->
+  constructor: (@name, @id = 0, @storage = [])->
 
   create: (data) ->
     @storage[@id++] = new Record(@id, data)
