@@ -2,3 +2,9 @@ Add validation error to updates of records? (should a Record have a setValidator
 Should Query be a model?
 make read=find? delete=remove?
 Archivist -> MongoArchivist -> ArbtraderArchivist
+
+What should update do when newData has properties not in original? (ignore or error)
+
+null or error:
+ - RUD when a record with given id doesn't exist?
+ 
