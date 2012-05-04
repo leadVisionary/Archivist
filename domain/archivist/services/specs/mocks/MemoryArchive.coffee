@@ -7,9 +7,11 @@ class MemoryArchive extends Archive
 	read: (id) ->
 		return super id
 
-	update: () ->
+	update: (id, data) ->
+		return super id,data
 
-	delete: () _>
+	delete: (id) ->
+		return super id
 
 module.exports = MemoryArchive
 		
