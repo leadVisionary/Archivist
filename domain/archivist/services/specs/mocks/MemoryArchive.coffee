@@ -1,17 +1,13 @@
 Archive = require '../../../models/Archive'
 
 class MemoryArchive extends Archive
-	create: (data) -> 
-		return super data
+	create: (data) -> super data
 	
-	read: (id) ->
-		return super id
+	read: (id) -> super id
 
-	update: (id, data) ->
-		return super id,data
+	update: (id, data) -> super id,data
 
-	remove: (id) ->
-		return super id
+	remove: (id) -> super id
 
 module.exports = MemoryArchive
 		
