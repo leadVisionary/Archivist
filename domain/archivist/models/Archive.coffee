@@ -7,7 +7,6 @@ class Archive
     @storage[@id++] = new Record(@id, data)
 
   read: (id) ->
-    console.log @storage
     return @storage[id]
 
   update: (id, data) ->
@@ -20,7 +19,7 @@ class Archive
   	@storage[id] = null
   	return toDelete
   
-  getSize: () -> @id
+  getSize: () ->@storage.length 
   
 module.exports = Archive
 	
