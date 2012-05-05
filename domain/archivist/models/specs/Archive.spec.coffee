@@ -39,10 +39,9 @@ describe 'Archive', ->
       archive = new Archive("Dog")
       dog = archive.create(boogie)
       result = archive.remove(1)
-      console.log result
       result.name.should.eql boogie.name
       result.age.should.eql boogie.age
       result.emotion.should.eql boogie.emotion
+      console.log archive.storage
       newSize = archive.getSize()
       newSize.should.eql 0
-
