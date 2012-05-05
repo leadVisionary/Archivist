@@ -1,10 +1,7 @@
 Record = require './Record'
 
 class Archive
-  @storage = []
-  @id = 0
-  
-  constructor: (@name)->
+  constructor: (@name, @id = 1, @storage = [])->
 
   create: (data) ->
     @storage[@id++] = new Record(@id, data)
@@ -22,7 +19,7 @@ class Archive
   	@storage[id] = null
   	return toDelete
   
-  getSize: () -> @id
+  getSize: () ->@storage.length 
   
 module.exports = Archive
 	
