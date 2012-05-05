@@ -17,5 +17,5 @@ describe 'Record', ->
     it 'should set the properties of a record to match passed in data(used later for updates)', ->
       data2 = {"name": "Nick", "age": 26}
       result = new Record 0, data2
-      result.setProperty name, "Joseph"
+      result.setProperty "name", "Joseph"
       result.name.should.eql "Joseph"
