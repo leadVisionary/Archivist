@@ -27,12 +27,12 @@ describe 'Record', ->
       result.name.should.eql "Nick"
       result.age.should.eql 26
 
-###
   describe '#setValidationStrategies', ->
     it "should set the record's validation strategies object to the input", ->
       strategies = {age: (arg)-> arg > 0}
       result = new Record 0
       result.setValidationStrategies strategies
       badData = {name: 'fetus', age: -1}
-      result.setProperty
+      badFunction = -> result.addProperties badData
+      badFunction.should.throw 'Validation failed for age: -1'
       
