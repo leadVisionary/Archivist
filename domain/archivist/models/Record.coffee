@@ -1,6 +1,6 @@
 class Record
 	constructor: (@id, data) ->
-    @setProperty key, value for key, value of data
+    @setProperty key, value  for own key, value of data
 
 	setProperty: (property, value) ->
 		@["#{property}"] = value
