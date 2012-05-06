@@ -42,6 +42,18 @@ describe 'Archive', ->
       result.name.should.eql boogie.name
       result.age.should.eql boogie.age
       result.emotion.should.eql boogie.emotion
-      console.log archive.storage
       newSize = archive.getSize()
       newSize.should.eql 0
+
+  describe '#delete', ->
+    it 'should return the deleted record from a given id and delete it when the record exists', ->
+      boogie = createData()
+      archive = new Archive("Dog")
+      dog = archive.create(boogie)
+      result = archive.delete(1)
+      result.name.should.eql boogie.name
+      result.age.should.eql boogie.age
+      result.emotion.should.eql boogie.emotion
+      newSize = archive.getSize()
+      newSize.should.eql 0
+

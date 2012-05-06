@@ -8,7 +8,6 @@ describe 'Record', ->
         age: 26
 
       result = new Record(0, data)
-      console.log result
       result.id.should.eql 0
       result.name.should.eql "Nick"
       result.age.should.eql 26

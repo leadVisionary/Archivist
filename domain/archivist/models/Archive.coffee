@@ -5,7 +5,6 @@ class Archive
 
   create: (data) ->
     newId = @generateId()
-    console.log newId
     record = new Record(newId, data)
     @storage.push(record)
     return record
@@ -18,17 +17,20 @@ class Archive
     toUpdate.setProperty(key, value) for key, value of data
     return toUpdate
 
+  delete: (id) ->
+    @remove id
+
   remove: (id) ->
     toDelete = @find(id)
     @storage.splice(toDelete.id-1, 1)
     return toDelete
 
-  getSize: () -> @storage.length
-
-  generateId: () -> @getSize() + 1
-
   find:(id) ->
     result = record for record in @storage when record.id is id
     return result
   
+  getSize: () -> @storage.length
+
+  generateId: () -> @getSize() + 1
+
 module.exports = Archive
