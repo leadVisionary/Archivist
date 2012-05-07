@@ -1,20 +1,19 @@
 {
      "name":"archivist",
-        "description":"prototype of the Archivist archetype for the Personify framework",
-           "version":"0.0.2",
-              "homepage":"http://github.com/leadVisionary/archivist",
-                 "repository":"git://github.com/leadVisionary/archivist.git",
-                    "author":"Nicholas Vaidyanathan <visionary.software.solutions@gmail.com> (http://www.visionarysoftwaresolutions.com/)",
-                       "main":"./archivist.js",
-
-                          "dependencies":{
-                                  "coffee-script":"*",
-                                             },
-                             "devDependencies":{
-                                     "node-log":"*",
-                                           "should":"*"
-                                                },
-                                "engines":{
-                                        "node":">= 0.6.0"
-                                             }
+     "description":"prototype of the Archivist archetype for the Personify framework",
+     "version":"0.5.0",
+     "homepage":"http://github.com/leadVisionary/archivist",
+     "repository":"git://github.com/leadVisionary/archivist.git",
+     "author":"Nicholas Vaidyanathan <visionary.software.solutions@gmail.com> (http://www.visionarysoftwaresolutions.com/)",
+     "main":"./archivist.js",
+      "dependencies":{
+       "coffee-script":"*"
+      },
+      "devDependencies":{
+         "node-log":"*",
+         "should":"*"
+      },
+      "engines":{
+          "node":">= 0.6.0"
+      }
 }

@@ -1,3 +1,4 @@
+<h1>Archivist: Abstract Data Manager archetype for the Personify framework</h1> 
 <h1>On Archetypes</h1>
 <p>An initial prototype for the <strong>Archivist</strong> archetype of the <em>Personify</em> reference model. An archetype is a meta-level pattern encountered in many different applications. Archetypes provide general functionality usually required in various contexts.</p>
 
@@ -7,22 +8,23 @@
 <h1>Archivist</h1>
 <p>Like an archivist (a historian) in a castle, the <strong>Archivist</strong> archtype personifies the responsibility of storing information into long term storage.</p>
 
-<p>An <strong>Archivist</strong> are responsible for knowing</p> 
-- where to store things (A StorageLocation)  
-- what to store (An Archive)
-- how to store it (An ArchivingStrategy)
+<p>An <strong>Archivist</strong> is responsible for knowing</p> 
+- where to store things (An Archive)  
+- what to store (A Record)
 
 <p>An <strong>Archivist</strong> provides these basic services:</p>
-- Create(data) returns an Archive with an id that wraps the data
-- Read(id) returns the Archive with the specified id, or an empty Archive if none found
-- Update(id, newData) returns the updated Archive if newData validates. May throw a ValidationError if it does not
-- Delete(id) returns the removed Archive
+- Create(data) returns an Record with an id that wraps the data
+- Read(id) returns the Record with the specified id, or an empty Record if none found
+- Update(id, newData) returns the updated Record if newData validates. May throw a ValidationError if it does not
+- Delete(id) returns the removed Record
 
 <h1>Specializations</h1>
-<p>A particular type of <strong>Archivist</strong>, for example a MongoDBArchivist, would extend the <strong>Archivist</strong> archetype through an application of the <a href="http://addyosmani.com/blog/decorator-pattern/" target="_blank">Decorator pattern</a> and explicitly devise its own StorageLocation, Archives, and ArchivingStrategies by extending the base interfaces and providing their own implemenations.</p>
+<p>A particular type of <strong>Archivist</strong>, for example a MongoDBArchivist, would extend the functionality of the <strong>Archivist</strong> archetype through an application of the <a href="http://addyosmani.com/blog/decorator-pattern/" target="_blank">Decorator pattern</a> and explicitly devise its own Archives and providing their own implemenations.</p>
+
+<p>Archives are recommended to correspond to Data Mappers, encapulating the persistence layer explicitly by exposing CRUD interface and then wiring up the underlying implementation accordingly.</p>
 
 <h1>Source Layout and contents</h1>
-<p>The directory content of <strong>Archivist</strong> follows rzr style, adhering to the principles of <a href="http://domaindrivendesign.org/" target="_blank">Domain Driven Design</a> by defining a Bounded Context called domain/ by convention. The domain has separate modules, though it is a rzr guiding principle that blades (plugin components) be as minimalistic as possible. Hence, the <strong>Archivist</strong> has one module, archivist/.</p>
+<p>The directory content of <strong>Archivist</strong> adheres to the principles of <a href="http://domaindrivendesign.org/" target="_blank">Domain Driven Design</a> by defining a Bounded Context called domain/ by convention. The domain may have separate modules, though it is a guiding principle that components be as minimalistic as possible. Hence, the <strong>Archivist</strong> has one module, archivist/.</p>
 
 <p>Each module has an Aggregate Root, conventionally named for the Module (in this case, Archivist.coffee). The Module contains the standard DDD components of Models and Services. Factories and Repositories are option, though the beta applications in <em>Personify</em> have delegated those responsiblities to other Agents (the <strong>Archivist</strong> is the Repository handler).  The Aggregate root exposes the agents the module provides for external interface. Modules in rzr style are Agents, though they may not always be very smart.</p>
 
