@@ -22,7 +22,27 @@ describe 'Archive', ->
       result.name.should.eql dog.name
       result.age.should.eql dog.age
       result.emotion.should.eql dog.emotion
+    
+    it 'should return empty from a given id when the record does not exist', ->
+      archive = new Archive("Dog")
+      result = archive.read("potato")
+      result.should.exist
 
+  describe '#find', ->
+    it 'should return a record from a given id when the record exists', ->
+      boogie = createData()
+      archive = new Archive("Dog")
+      dog = archive.create(boogie)
+      result = archive.find(1)
+      result.name.should.eql dog.name
+      result.age.should.eql dog.age
+      result.emotion.should.eql dog.emotion
+    
+    it 'should return empty from a given id when the record does not exist', ->
+      archive = new Archive("Dog")
+      result = archive.find("potato")
+      result.should.exist
+  
   describe '#update', ->
     it 'should return an updated record from a given id and data when the record exists', ->
       boogie = createData()
@@ -33,6 +53,13 @@ describe 'Archive', ->
       result.age.should.eql 1
       result.emotion.should.eql dog.emotion
 
+    it 'should return empty when the record does not exist', ->
+      boogie = createData()
+      archive = new Archive("Dog")
+      dog = archive.create(boogie)
+      result = archive.update(50, {name:"Chompie", age:1})
+      result.should.not.exist
+  
   describe '#remove', ->
     it 'should return the removed record from a given id and remove when the record exists', ->
       boogie = createData()

@@ -14,7 +14,8 @@ class Archive
 
   update: (id, data) ->
     toUpdate = @find(id)
-    toUpdate.setProperty(key, value) for key, value of data
+    toUpdate.setProperty(key, value) for own key, value of data when ((k for own k of toUpdate).length isnt 0)
+
     return toUpdate
 
   delete: (id) ->
@@ -27,7 +28,7 @@ class Archive
 
   find:(id) ->
     result = record for record in @storage when record.id is id
-    return result
+    return result or {}
   
   getSize: () -> @storage.length
 
