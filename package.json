@@ -1,7 +1,7 @@
 {
      "name":"archivist",
      "description":"prototype of the Archivist archetype for the Personify framework",
-     "version":"0.5.2",
+     "version":"0.5.3",
      "homepage":"http://github.com/leadVisionary/archivist",
      "repository":"git://github.com/leadVisionary/archivist.git",
      "author":"Nicholas Vaidyanathan <visionary.software.solutions@gmail.com> (http://www.visionarysoftwaresolutions.com/)",
