@@ -1,0 +1,73 @@
+Contract: Archivist
+
+Description: The Archivist agent manages long-term data persistence for software. 
+
+States: [Permissive, Strict] #default is permissive
+
+Services:
+	create: accepts data [general hash/object]
+		precondition: none
+		postcondition: archive contains data, data has unique identifier
+			- If fail, return to user Error: Could not create distinct record
+		invariant: none
+		returns a new Record [original hash/object with generated unique identifier]
+  
+        ### WHEN STRICT : Archivist is configured to ensure data integrity -->
+            + changes precondition to: record is not already contained
+              - If fail, return to user Error: "You are attempting to insert an existing record" 
+	    + changes invariant to: ensure other records are not affected
+              - If fail, return to user Error: "Your creation has affected unexpected record [record]"
+	
+	read: accepts id [identifier]
+	      precondition: none
+	      postcondition: none
+	      invariant: No data is modified
+		- If fail: return to user Error: Something went wrong while reading  
+	      returns Record with the existing id or empty Record
+
+	### WHEN STRICT: Archivist is configured to ensure maximum feedback
+	    + changes precondition to: record with given id exists
+			- If fail, return to user Error: Could not find record with given id
+
+	
+	update: accepts id [identifier], data [general hash/object]
+		precondition: the id already exists and contains a record
+		- If fail, return to user Error: Attempting to update non-existant record
+		postcondition: the record has been updated with the new values contained in data
+		- If fail, return to user Error: Could not update record
+		invariant: none
+  
+        ### WHEN STRICT : Archivist is configured to ensure data integrity -->
+            + changes precondition to: data contains keys that directly map to previous keys
+              - If fail, return to user Error: "You are attempting to update with extra data" 
+	    + changes invariant to: ensure other records are not affected
+              - If fail, return to user Error: "Your creation has affected unexpected record [record]"
+
+	delete: accepts id [identifier]
+	      precondition: none
+	      postcondition: the record with the specified id is removed
+		- If fail, return to user Error: "Could not remove record"
+	      invariant: No other data is modified  
+	      returns Record with the existing id
+
+	### WHEN STRICT: Archivist is configured to ensure maximum feedback
+	    + changes precondition to: record with given id exists
+			- If fail, return to user Error: Could not find record with given id
+
+Goals: (100 pts possible)
+	100% adherence to preconditions 20
+	100% adherence to post-conditions 20
+	100% adherence to invariants 20
+	data should pass defined validation for each field 20
+	response windows should be less than 100 ms 10
+	data should be stored in optimal storage type for the nature of that data 5
+	users should be well informed of what its doing 5
+
+Beliefs: (100 pts possible -- Conviction)
+	is sole user of archive 10
+	trusts user input 10
+	prefers being PERMISSIVE over STRICT 80
+	
+	
+
+	 
