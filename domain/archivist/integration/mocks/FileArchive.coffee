@@ -4,7 +4,7 @@ fs = require 'fs'
 class FileArchive extends Archive
 	constructor: (@archive='dummy.txt') ->
 		@createFile()
-		super()
+		super(@archive)
 	
 	createFile: () ->
 		fs.writeFileSync(@archive, '')
@@ -15,7 +15,7 @@ class FileArchive extends Archive
 		toWrite.write(record)
 		record
 
-	read: (id)-> super(id)
+	read: (id) -> super(id)
 
 	update: (id, data) ->
 		super(id, data)

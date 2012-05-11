@@ -4,13 +4,15 @@ createData = require './mocks/createData'
 fs = require 'fs'
 require 'should'
 
-describe 'When adding an archive to a file', ->
+describe 'FileArchive', ->
 	describe '#create', ->
-		it 'that file should be successfully created, with a record in it', ->
+		it 'record should persist to file', ->
 			data = createData()
 			fileLocation = './domain/archivist/integration/mocks/dummy.txt'
 			archive = new FileArchive(fileLocation)
-			created = archive.create(data, ->)
+			archie = new Archivist()
+			archie.setArchive(archive)
+			created = archie.create(data, archive, ->)
 			created.name.should.eql "Boogie"
 			resultFile = fs.readFileSync fileLocation
 			resultFile.should.exist
