@@ -1,4 +1,5 @@
 Record = require './Record'
+require 'emptyObject'
 
 class Archive
   constructor: (@name, @storage=[])->
@@ -14,7 +15,7 @@ class Archive
 
   update: (id, data) ->
     toUpdate = @find(id)
-    toUpdate.setProperty(key, value) for own key, value of data when Object.keys(toUpdate).length isnt 0
+    toUpdate.setProperty(key, value) for own key, value of data when not toUpdate.isEmpty()
 
     return toUpdate
 

@@ -7,7 +7,8 @@
      "author":"Nicholas Vaidyanathan <visionary.software.solutions@gmail.com> (http://www.visionarysoftwaresolutions.com/)",
      "main":"./archivist.js",
       "dependencies":{
-       "coffee-script":"*"
+       "coffee-script":"*",
+       "emptyObject":"*"
       },
       "devDependencies":{
          "node-log":"*",

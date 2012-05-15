@@ -1,6 +1,5 @@
-create = (data, archive, callback) ->
+create = (data, archive) ->
 	created = archive.create(data)
-	callback(created)
 	created
 
 
