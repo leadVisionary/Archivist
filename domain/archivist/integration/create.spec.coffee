@@ -16,3 +16,16 @@ describe 'Archivist', ->
                         resultFile = fs.readFileSync Setup.fileLocation
                         resultFile.should.exist
 
+		it 'record should not persist to file when data does not validate', ->
+			# Given an Archivist
+			archie = Setup.archivistFactory()
+			# And an archive with a validation scheme set
+			validators = {"name": (data) -> data != "Boogie"}
+			archive = Setup.archiveFactory()
+			archive.setValidationStrategy(validators)
+			archie.setArchive(archive)
+			# When I create a record with data
+		        # Then the record should throw an error
+			creation = () ->
+				archie.create(Setup.data)
+			creation.should.throw()

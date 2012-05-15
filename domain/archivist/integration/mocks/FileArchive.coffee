@@ -14,13 +14,12 @@ class FileArchive extends Archive
 		toWrite = fs.createWriteStream(@archive, {'flags':'a'})
 		toWrite.write(record)
 		record
+        
+	getSize: () -> super
+	#read: (id) -> super(id)
 
-	read: (id) -> super(id)
-
-	update: (id, data) ->
-		super(id, data)
+	#update: (id, data) -> super(id, data)
 	
-	delete: (id) ->
-		super(id)
-
+	#delete: (id) -> super(id)
+	
 module.exports = FileArchive

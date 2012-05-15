@@ -6,7 +6,7 @@ class Archive
 
   create: (data) ->
     newId = @generateId()
-    record = new Record(newId, data)
+    record = new Record(newId, data, @validator)
     @storage.push(record)
     return record
 
@@ -34,5 +34,8 @@ class Archive
   getSize: () -> @storage.length
 
   generateId: () -> @getSize() + 1
+
+  setValidationStrategy: (validatorObject) ->
+	  @validator = validatorObject
 
 module.exports = Archive

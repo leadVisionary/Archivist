@@ -8,7 +8,7 @@ describe 'Archivist', ->
                 it 'should allow the archive to be set at run-time', ->
                         # Given an Archivist and a new archive to set
                         archie = Setup.archivistFactory()
-                        archive = new Setup.FileArchive(Setup.fileLocation)
+                        archive = new Setup.archiveFactory()
                         # When I dynamically set its archive and try to create a new record
                         archie.setArchive(archive)
                         created = archie.create(Setup.data)

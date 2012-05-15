@@ -1,16 +1,6 @@
-Add validation error to updates of records? (should a Record have a validate() that's called when properties are updated?)
 Should Query be a model?
-Archivist -> MongoArchivist -> ArbtraderArchivist
-
-What should update do when newData has properties not in original? (ignore or error)
 
 null or error:
  - RUD when a record with given id doesn't exist?
 
 An Archive has a ValidationStrategy that corresponds to the schema of the table/validation rules for each record
-
-Create and Update on an Archive should go through each key value pair and run the validation function defined for that key
-
-Validation functions could include transformation code, so that say "twenty-two" would be converted to 22 before a save, or 22.4 could be rounded to 22
-
-ValidationStrategy has keys for each property in the record and values that are functions that return true or false

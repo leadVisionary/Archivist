@@ -24,3 +24,17 @@ describe 'Archivist', ->
 			# Then I should get back an empty object
 			updated.should.exist
 			updated.keys?.should.not.be.ok
+		it 'record should not persist to file when data does not validate', ->
+			# Given an Archivist
+			archie = Setup.archivistFactory()
+			# And an archive with a validation scheme set
+			validators = {"name": (data) -> data != "Chompie"}
+			archive = Setup.archiveFactory()
+			archive.setValidationStrategy(validators)
+			archie.setArchive(archive)
+			archie.create(Setup.data)
+			# When I try to update a record with invalid data
+		        # Then the record should throw an error
+			update = () ->
+				archie.update(1, {name:"Chompie"})			
+			update.should.throw()

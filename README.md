@@ -9,7 +9,8 @@
 <p>Like an archivist (a historian) in a castle, the <strong>Archivist</strong> archtype personifies the responsibility of storing information into long term storage.</p>
 
 <p>An <strong>Archivist</strong> is responsible for knowing</p> 
-- where to store things (An Archive)  
+- where to store things (An Archive)
+** An Archive may __optionally__ have a ValidationStrategy that corresponds to the schema of the table/validation rules for each record. For usage, see <code>domain/archivist/integration/create.spec.coffee</code>
 - what to store (A Record)
 
 <p>An <strong>Archivist</strong> provides these basic services:</p>
@@ -17,6 +18,8 @@
 - Read(id) returns the Record with the specified id, or an empty Record if none found
 - Update(id, newData) returns the updated Record if newData validates. May throw a ValidationError if it does not
 - Delete(id) returns the removed Record
+** find(id) is an alias of read(id)
+** remove(id) is an alias of delete(id)
 
 <h1>Specializations</h1>
 <p>A particular type of <strong>Archivist</strong>, for example a MongoDBArchivist, would extend the functionality of the <strong>Archivist</strong> archetype through an application of the <a href="http://addyosmani.com/blog/decorator-pattern/" target="_blank">Decorator pattern</a> and explicitly devise its own Archives and providing their own implemenations.</p>
